@@ -8,7 +8,7 @@ import {singUpSchema} from "@/schemas/signUpSchema";
 import axios, {AxiosError} from "axios";
 import {ApiResponse} from "@/types/ApiResponse";
 import {useRouter} from "next/navigation";
-
+import {toast} from "react-hook-form"
 const SignInPage = () => {
     const [username, setUsername] = useState("")
     const [usernameMessage, setUsernameMessage] = useState("")
@@ -53,7 +53,7 @@ const SignInPage = () => {
         try {
             const response = await axios.post<ApiResponse>(`/api/signup`, data)
             if (response.data.success) {
-                toast({
+                toast.success({
                     title: 'Success',
                     description: response.data.message
                 })
