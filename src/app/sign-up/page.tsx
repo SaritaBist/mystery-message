@@ -8,7 +8,7 @@ import {singUpSchema} from "@/schemas/signUpSchema";
 import axios, {AxiosError} from "axios";
 import {ApiResponse} from "@/types/ApiResponse";
 import {useRouter} from "next/navigation";
-import {Box, Button, Card, CardContent, CardHeader, Paper, TextField, Typography} from "@mui/material";
+import {Box, Button, Card, CardContent, CardHeader, Checkbox, Paper, TextField, Typography} from "@mui/material";
 import toast, {Toaster} from "react-hot-toast";
 import Grid from '@mui/material/Grid2';
 import Link from "next/link";
@@ -20,7 +20,7 @@ const SignInPage = () => {
     const [isUsernameChecking, setIsUsernameChecking] = useState(false)
     const [isFormSubmitting, setIsFormSubmitting] = useState(false)
     const debounced = useDebounceCallback(setUsername, 300)
-console.log("username message",usernameMessage)
+    const [showPassword, setShowPassword] = useState(false)
 
     const router = useRouter()
     const {control,reset,handleSubmit,formState: { errors }} = useForm<z.infer<typeof singUpSchema>>({
@@ -41,9 +41,7 @@ console.log("username message",usernameMessage)
 
                 try {
                     const response =  await axios.get(`/api/check-unique-username?username=${username}`)
-                    console.log("response",response)
-
-                   if(response.data.success)
+                    if(response.data.success)
                    {
                        setUsernameMessage(response?.data?.message)
                    }
@@ -69,17 +67,20 @@ console.log("username message",usernameMessage)
                 toast.success(response.data.message)
                 reset()
             }
-            // router.push(`/verify/${username}`)
+            router.push(`/verify/${username}`)
             setIsFormSubmitting(false)
 
         } catch (err) {
             const axiosError = err as AxiosError<ApiResponse>
-            toast('Error in registering user')
+            toast.error('Error in registering user')
         }
 
     }
+    const handlePasswordClick=()=>{
+        setShowPassword(!showPassword)
+    }
     return <>
-        <Paper elevation={3} sx={{width:'30%',m:'auto',mt:5}}>
+        <Paper elevation={7} sx={{width:'30%',m:'auto',mt:5}}>
             <Toaster
                 position="top-center"
                 reverseOrder={false}
@@ -115,7 +116,7 @@ console.log("username message",usernameMessage)
                                  />
                              )}
                          />
-                         <Typography>{usernameMessage}</Typography>
+                         <Typography sx={{color:usernameMessage==='Username is unique' ? 'green' : 'red'}}>{usernameMessage}</Typography>
                      </Grid>
                      <Grid size={{ xs: 6, md: 10}}>
                          <Controller
@@ -128,6 +129,7 @@ console.log("username message",usernameMessage)
                                      size='small'
                                      type='text'
                                      label="Email"
+                                     fullWidth
                                      error={!!errors.email}  // Display error if validation fails
                                      helperText={errors.email?.message}
 
@@ -136,7 +138,7 @@ console.log("username message",usernameMessage)
                              )}
                          />
                      </Grid>
-                     <Grid size={{ xs: 6, md: 10 }}>
+                     <Grid size={{ xs: 6, md: 10}}>
                          <Controller
                              name='password'
                              control={control}
@@ -145,7 +147,7 @@ console.log("username message",usernameMessage)
                                      value={value}
                                      onChange={onChange}
                                      fullWidth
-                                     type='password'
+                                     type={ showPassword ? 'text' :'password'}
                                      size='small'
                                      label="Password"
                                      error={!!errors.password}  // Display error if validation fails
@@ -155,6 +157,10 @@ console.log("username message",usernameMessage)
 
                              )}
                          />
+                     </Grid>
+                     <Grid size={{ xs: 6, md: 10}} sx={{display: 'flex',alignItems:'center'}}>
+                         <Checkbox  value={showPassword}  onClick={handlePasswordClick}  />
+                         <Typography>Show Password</Typography>
                      </Grid>
                  </Grid>
                  <Box sx={{display:'flex',justifyContent:'start'}}>
@@ -167,8 +173,8 @@ console.log("username message",usernameMessage)
                      </Button>
 
                  </Box>
-                 <Box sx={{my:3}}>
-                     <Typography>Already a member?<Link href={''}>sign in</Link></Typography>
+                 <Box sx={{my:5}}>
+                     <Typography>Already a member? <Link href={'/sign-in'} style={{textDecoration:'none'}}>sign in</Link></Typography>
                  </Box>
              </form>
             </Box>
