@@ -11,21 +11,20 @@ import store from "@/app/store/page";
 
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
+                                       children,
+                                   }: Readonly<{
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-   <Provider store={store}>
-     <AuthProvider>
+    return (
+        <html lang="en">
+        <Provider store={store}>
+            <AuthProvider>
+                <body className={inter.className}>
+                {children}
+                </body>
 
-       <body className={inter.className}>
-       {children}
-
-       </body>
-
-     </AuthProvider>   </Provider>
-    </html>
-  );
+            </AuthProvider>
+        </Provider>
+        </html>
+    );
 }

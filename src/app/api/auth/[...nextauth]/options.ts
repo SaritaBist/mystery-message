@@ -15,18 +15,21 @@ export const authOptions: NextAuthOptions ={
             },
             async authorize(credentials:any):Promise<any> {
                 await dbConnect()
+                console.log(credentials)
+
                 try {
-                  const user=UserModel.findOne({
+                  const user= await UserModel.findOne({
                       $or:[
                           {email:credentials.email},
                           {username: credentials.username}
                       ]
                   })
+                    console.log("user...",user)
                   if(!user)
                   {
                       throw new Error("User not found")
                   }
-                  if(!user.isVerified)
+                  if(!user?.isVerified)
                   {
                       throw new Error("Please verify your account before login")
                   }
