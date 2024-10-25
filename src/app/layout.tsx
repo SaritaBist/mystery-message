@@ -17,14 +17,14 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <Provider store={store}>
+        {/*<Provider store={store}>*/}
             <AuthProvider>
                 <body className={inter.className}>
                 {children}
                 </body>
 
             </AuthProvider>
-        </Provider>
+        {/*</Provider>*/}
         </html>
     );
 }

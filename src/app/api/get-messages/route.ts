@@ -30,6 +30,7 @@ export async function GET(request:Request)
 
         ])
 
+         console.log("user",user)
         if(!user || user?.length===0)
         {
             return Response.json({
