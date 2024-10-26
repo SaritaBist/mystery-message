@@ -91,14 +91,14 @@ const DashboardPage=()=>{
   }
 
    return<>
-       <Paper  sx={{mt:3,p:4}}>
+       <Paper  sx={{mt:3,p:4,height:'100vh'}}>
            <Toaster
                position="top-center"
                reverseOrder={false}
            />
            <Typography variant='h4'>User Dashboard</Typography>
-           <Typography  variant ='h6' sx={{mt:3}}>Copy your unique link</Typography>
-          <Box sx={{display: 'flex',mt:2}}>
+           <Typography  variant ='h6' sx={{mt:2}}>Copy your unique link</Typography>
+          <Box sx={{display: 'flex',mt:1}}>
               <TextField value={profileUrl} fullWidth/>
               <Button onClick={copyToClipBoard} variant='contained' sx={{ml:5}} size='small'>Copy </Button>
           </Box>
@@ -123,7 +123,7 @@ const DashboardPage=()=>{
                        />
                    ))
                ):(
-                   <Typography sx={{mt:5}}>No Message to display</Typography>
+                   <Typography variant='h6' sx={{display:'flex',justifyContent:'center',alignItem:'center',mt:6}}>No Message to display</Typography>
                )
            }
 
