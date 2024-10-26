@@ -8,7 +8,6 @@ export async function POST(request:Request)
     await dbConnect()
     const session= await getServerSession(authOptions)
     const user:User= session?.user
-    console.log(user)
      if(!session && !session?.user)
      {
          return Response.json({
@@ -49,7 +48,6 @@ export async function POST(request:Request)
          )
      }
      catch(err){
-         console.log("Error in accepting message",err)
          return Response.json({
              success:false,
              message:'Failed to send message'
@@ -64,8 +62,7 @@ export async function POST(request:Request)
 export async function GET(request:Request){
      await dbConnect()
     const session= await getServerSession(authOptions)
-    const user:User= session?.user
-    console.log(user)
+    const user:User= session?.user as User
     if(!session && !session?.user)
     {
         return Response.json({
@@ -77,10 +74,10 @@ export async function GET(request:Request){
     }
     const userId= user?._id
     try {
-         const foundUser= await UserModel.find({userId})
+         const foundUser= await UserModel.findOne({_id: userId})
+
          if(!foundUser)
          {
-             console.log("User not foound")
              return Response.json({
                      success:false,
                      message:'User not found'
@@ -99,7 +96,6 @@ export async function GET(request:Request){
     }
     catch(err)
     {
-        console.log("Error in  getting message acceptance",err)
         return Response.json({
                 success:false,
                 message:'Failed i getting  message acceptance'

@@ -1,21 +1,18 @@
-'use client'
-import type { Metadata } from "next";
+'use client';
 import { Inter } from "next/font/google";
+import Navbar from "@/components/Navbar"; // Ensure the path and casing are correct
+
 const inter = Inter({ subsets: ["latin"] });
-import Navbar from "@/components/navbar";
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-      <Navbar/>
-       {children}
-       </body>
-
-    </html>
-  );
+                                       children,
+                                   }: {
+    children: React.ReactNode;
+}) {
+    return (
+          <div>
+           <Navbar />
+            {children}
+          </div>
+    );
 }

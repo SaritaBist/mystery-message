@@ -5,11 +5,6 @@ import {useCallback, useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
 import {ApiResponse} from "@/types/ApiResponse";
 import axios from "axios";
-import {Controller, useForm} from "react-hook-form";
-import * as z from "zod";
-import {singUpSchema} from "@/schemas/signUpSchema";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {acceptMessageSchema} from "@/schemas/acceptMessageSchema";
 import toast, {Toaster} from "react-hot-toast";
 import {User} from "next-auth";
 
@@ -20,7 +15,6 @@ const DashboardPage=()=>{
     const [isLoading,setIsLoading]= useState(false)
     const [acceptMessages, setAcceptMessages]= useState(false)
 
-     console.log("accept messages",acceptMessages)
 
     const handleDeleteMessage=(messageId:string)=>{
         setMessage(message.filter((message)=>message._id!==messageId))
@@ -51,7 +45,7 @@ const DashboardPage=()=>{
             }
         }
         catch (err) {
-            toast.error('Failed fetch messages')
+            toast.error(err.response.data.message)
         }
         finally {
             setIsLoading(false)
@@ -63,7 +57,7 @@ const DashboardPage=()=>{
         fetchMessages()
         fetchAcceptMessages()
 
-    },[session,acceptMessages,fetchMessages,fetchAcceptMessages])
+    },[session,fetchMessages,fetchAcceptMessages])
 
 
 
@@ -86,7 +80,7 @@ const DashboardPage=()=>{
 
       try {
             const response= await axios.post<ApiResponse>(`/api/accept-messages`, {acceptedMessage: !acceptMessages})
-           setAcceptMessages(!acceptMessages)
+           setAcceptMessages(response.data.updatedUser.isAcceptingMessage)
             toast.success(response.data.message)
 
 
@@ -104,13 +98,14 @@ const DashboardPage=()=>{
            />
            <Typography variant='h4'>User Dashboard</Typography>
            <Typography  variant ='h6' sx={{mt:3}}>Copy your unique link</Typography>
-          <Box sx={{display: 'flex',gap:2,mt:2}}>
+          <Box sx={{display: 'flex',mt:2}}>
               <TextField value={profileUrl} fullWidth/>
               <Button onClick={copyToClipBoard} variant='contained' sx={{ml:5}} size='small'>Copy </Button>
           </Box>
 
            <Box sx={{ display: 'flex', gap: 2, alignItems: 'center',mt:3 }}>
                <Switch
+                  size='2rem'
                    checked={acceptMessages}
                    onChange={(e)=>handleAcceptMessage(e)} // Directly update with field.onChange
                />
