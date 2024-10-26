@@ -43,10 +43,10 @@ const MessageCard=({message,onMessageDelete}:MessageCardContent)=>{
             />
             <CardHeader></CardHeader>
             <CardContent>
-               <Box sx={{display:'flex', gap:4}}>
+               <Box sx={{display:'flex', justifyContent:'space-between'}}>
                    <Box>
-                       <Typography>Sarita Bist</Typography>
-                       <Typography>Mar23, 2024</Typography>
+                       <Typography>{message?.content}</Typography>
+                       <Typography>{message?.createdAt}</Typography>
                    </Box>
                   <Button variant='contained' onClick={()=>handleDeleteClick(true)} sx={{backgroundColor:'red'}}> <CloseIcon ></CloseIcon></Button>
                </Box>

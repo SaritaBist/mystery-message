@@ -1,12 +1,13 @@
 "use client"
 import MessageCard from "@/components/MessageCard";
-import {Box, Button, Paper, Switch, TextField, Typography} from "@mui/material";
+import {Box, Button, Divider, Paper, Switch, TextField, Typography} from "@mui/material";
 import {useCallback, useEffect, useState} from "react";
 import {useSession} from "next-auth/react";
 import {ApiResponse} from "@/types/ApiResponse";
 import axios from "axios";
 import toast, {Toaster} from "react-hot-toast";
 import {User} from "next-auth";
+import Grid from "@mui/material/Grid2";
 
 
 const DashboardPage=()=>{
@@ -111,21 +112,29 @@ const DashboardPage=()=>{
                />
                <Typography variant='body'>Accept Messages</Typography>
                : <Typography variant='body'>{acceptMessages ? 'on' : 'off'}</Typography>
+
            </Box>
+           <Divider sx={{mt:1}}/>
+           <Grid container spacing={4} sx={{mt:3}}>
+                   {
+                       message.length> 0 ?(
+                           message?.map((m)=>(
 
-           {
-               message.length> 0 ?(
-                   message?.map((m)=>(
-                       <MessageCard
-                           message={m}
-                           onMessageDelete={handleDeleteMessage}
+                               <Grid  size={{ xs: 12, md: 6}}>
+                                   <MessageCard
+                                       message={m}
+                                       onMessageDelete={handleDeleteMessage}
 
-                       />
-                   ))
-               ):(
-                   <Typography variant='h6' sx={{display:'flex',justifyContent:'center',alignItem:'center',mt:6}}>No Message to display</Typography>
-               )
-           }
+                                   />
+                               </Grid>
+
+                           ))
+                       ):(
+                           <Typography variant='h6' sx={{display:'flex',justifyContent:'center',alignItem:'center',mt:6}}>No Message to display</Typography>
+                       )
+                   }
+               </Grid>
+
 
 
        </Paper>

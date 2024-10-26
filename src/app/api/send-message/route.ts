@@ -7,7 +7,7 @@ export async function POST(request:Request)
     await dbConnect()
     try {
          const {username,content} = await request.json();
-         const user= await UserModel.find({username})
+         const user= await UserModel.findOne({username})
         if(!user)
         {
             return Response.json({
@@ -17,7 +17,9 @@ export async function POST(request:Request)
                 {status:400}
             )
         }
-        if(!user.isAcceptingMessage)
+        console.log("jbshhdhjs",user?.isAcceptingMessage)
+
+        if(!user?.isAcceptingMessage)
         {
             return Response.json({
                     success:false,
