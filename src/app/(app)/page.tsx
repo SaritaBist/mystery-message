@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
- import './style.css'
+import './style.css'
 import message from'@/message.json'
 
 import { Autoplay, Navigation } from 'swiper/modules';

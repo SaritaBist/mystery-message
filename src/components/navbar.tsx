@@ -2,11 +2,16 @@
 import {signOut, useSession} from "next-auth/react";
 import {User} from "next-auth";
 import {AppBar, Box, Button, Toolbar, Typography} from "@mui/material";
+import {useRouter} from "next/navigation";
 
 const Navbar=()=>{
     const {data:session}=useSession()
     const user:User= session?.user as User
-
+    const router = useRouter()
+    const handleLogout=()=>{
+        signOut()
+        router.replace('/login')
+    }
     return<>
         <Box sx={{  }}>
             <AppBar position="static" sx={{ backgroundColor: "#F0F0F0",color:'black' }}>
@@ -18,7 +23,7 @@ const Navbar=()=>{
                         session ?
                             <Box sx={{display:'flex',gap:3,alignItems:'center'}}>
                             <Typography>Welcome {user?.username || user?.email}</Typography>
-                                <Button variant='contained' onClick={()=>signOut()}>Logout</Button>
+                                <Button variant='contained' onClick={handleLogout}>Logout</Button>
                           </Box>:
                             (
                                 <Button variant='contained' href="/sign-in">Login</Button>

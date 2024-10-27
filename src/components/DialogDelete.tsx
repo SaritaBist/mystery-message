@@ -24,7 +24,7 @@ import {Icon} from "@iconify/react";
 
 const DialogDelete = ({ show, handleDialog ,handleDelete}) => {
     const handleClick=()=>{
-        // handleDelete()
+        handleDelete()
         handleDialog(false)
     }
 

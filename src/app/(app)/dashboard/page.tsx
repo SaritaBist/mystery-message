@@ -62,15 +62,15 @@ const DashboardPage=()=>{
 
 
 
-    // if(!session || !session.user)
-    // {
-    //     return <div>Please Login </div>
-    // }
+    if(!session || !session.user)
+    {
+        return <Typography variant='h5' sx={{mt:5,textAlign:'center'}}>Please Login </Typography>
+    }
 
 
     const username= user?.username
     const baseUrl=`${window.location.protocol}// ${window.location.host}`
-    const profileUrl=`${baseUrl}/u/${username}`
+    const profileUrl=`${baseUrl}/u/${username || 'User'}`
     const copyToClipBoard=()=>{
         navigator.clipboard.writeText(profileUrl)
         toast.success('Profile URL copied to clipboard')
@@ -120,7 +120,7 @@ const DashboardPage=()=>{
                        message.length> 0 ?(
                            message?.map((m)=>(
 
-                               <Grid  size={{ xs: 12, md: 6}}>
+                               <Grid key={m._id}  size={{ xs: 12, md: 6}}>
                                    <MessageCard
                                        message={m}
                                        onMessageDelete={handleDeleteMessage}
